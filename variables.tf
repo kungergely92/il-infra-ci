@@ -1,6 +1,6 @@
-variable "name" {
+variable "ecr_name" {
   type        = string
-  description = "Name of the repository."
+  description = "Name of the ECR repository."
 }
 
 variable "tag_prefix_list" {
@@ -36,4 +36,87 @@ variable "image_tag_mutability" {
   default     = "MUTABLE"
   type        = string
   description = "Whether images are allowed to overwrite existing tags."
+}
+
+variable "initial_db" {
+  type        = string
+  default     = "postgres"
+  description = "Initial database."
+}
+
+variable "identifier" {
+  type        = string
+  description = "RDS identifier."
+}
+
+variable "username" {
+  type        = string
+  default     = "kungergely"
+  description = "RDS master username."
+}
+
+variable "engine_version" {
+  type        = string
+  default     = "12.6"
+  description = "RDS engine version."
+}
+
+variable "instance_class" {
+  type        = string
+  default     = "db.t2.micro"
+  description = "RDS instance class."
+}
+
+variable "allocated_storage" {
+  type        = number
+  default     = 20
+  description = "RDS storage."
+}
+
+variable "storage_type" {
+  type        = string
+  default     = "gp2"
+  description = "RDS storage type."
+}
+
+variable "availability_zone" {
+  type        = string
+  default     = "us-west-1b"
+  description = "RDS az."
+}
+
+variable "skip_final_snapshot" {
+  type        = bool
+  default     = false
+  description = "RDS skip final snapshot."
+}
+
+variable "apply_immediately" {
+  type        = bool
+  default     = false
+  description = "Apply changes immediately."
+}
+
+variable "publicly_accessible" {
+  type        = bool
+  default     = false
+  description = "RDS publicly accessible."
+}
+
+variable "enabled_ssm_parameter_store" {
+  type        = bool
+  default     = true
+  description = "Save RDS credentials to SSM Parameter Store."
+}
+
+variable "max_allocated_storage" {
+  type        = number
+  default     = 100
+  description = "RDS max allocated storage autoscailing."
+}
+
+variable "tags" {
+  type        = map(any)
+  default     = {}
+  description = "Resource tags."
 }
