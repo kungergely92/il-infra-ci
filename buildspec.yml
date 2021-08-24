@@ -1,5 +1,7 @@
 version: 0.2
-
+artifacts:
+  files:
+    - index.html
 phases:
   pre_build:
     commands:

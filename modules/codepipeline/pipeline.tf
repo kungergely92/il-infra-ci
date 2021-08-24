@@ -4,7 +4,7 @@ resource "aws_codepipeline" "my-provisioned-deployment-pipeline" {
   tags     = {}
 
   artifact_store {
-    location = aws_s3_bucket.codepipeline_bucket.bucket
+    location = module.aws_ecr_s3_postgres_pj.s3_bucket_id
     type     = "S3"
   }
 
@@ -62,7 +62,6 @@ resource "aws_codepipeline" "my-provisioned-deployment-pipeline" {
       output_artifacts = []
       owner            = "AWS"
       provider         = "S3"
-      run_order        = 1
       version          = "1"
     }
   }

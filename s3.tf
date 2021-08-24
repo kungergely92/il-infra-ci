@@ -34,15 +34,7 @@ resource "aws_s3_bucket_policy" "this" {
                 "AWS": "*"
             }
         Action    = "s3:GetObject"
-        Resource = [
-          aws_s3_bucket.this.arn,
-          "${aws_s3_bucket.this.arn}/*",
-        ]
-        Condition = {
-          IpAddress = {
-            "aws:SourceIp" = "8.8.8.8/32"
-          }
-        }
+        Resource = ["${aws_s3_bucket.this.arn}/*"]
       },
     ]
   })
