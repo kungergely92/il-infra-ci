@@ -1,5 +1,5 @@
 variable "repository_branch" {
-  default     = "main"
+  default     = "refs/heads/feature/html-index-page"
   type        = string
   description = "Branch to run build stage on."
 }

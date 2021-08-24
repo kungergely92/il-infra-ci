@@ -18,18 +18,30 @@ EOF
 }
 
 data "aws_iam_policy_document" "pipeline-policies" {
-    statement{
-        sid = ""
-        actions = ["codestar-connections:UseConnection"]
-        resources = ["*"]
-        effect = "Allow"
-    }
-    statement{
-        sid = ""
-        actions = ["cloudwatch:*", "s3:*", "codebuild:*"]
-        resources = ["*"]
-        effect = "Allow"
-    }
+  statement{
+    sid = ""
+    actions = ["codestar-connections:UseConnection"]
+    resources = ["*"]
+    effect = "Allow"
+  }
+  statement{
+    sid = ""
+    actions = ["cloudwatch:*", "s3:*", "codebuild:*"]
+    resources = ["*"]
+    effect = "Allow"
+  }
+  statement{
+    sid = ""
+    actions = ["ecr-public:*", "sts:GetServiceBearerToken"]
+    resources = ["*"]
+    effect = "Allow"
+  }
+  statement{
+    sid = ""
+    actions = ["ecr:*", "cloudtrail:LookupEvents"]
+    resources = ["*"]
+    effect = "Allow"
+  }
 }
 
 resource "aws_iam_policy" "pipeline-policy" {
@@ -45,7 +57,7 @@ resource "aws_iam_role_policy_attachment" "pipeline-attachment" {
 }
 
 resource "aws_iam_role" "build_role" {
-  name = "build_role_terraform"
+  name = "provisioned_build_role"
 
   assume_role_policy = <<EOF
 {
@@ -64,12 +76,38 @@ EOF
 }
 
 data "aws_iam_policy_document" "build-policies" {
-    statement{
-        sid = ""
-        actions = ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*","iam:*"]
-        resources = ["*"]
-        effect = "Allow"
+  statement{
+    sid = ""
+    actions = ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*","iam:*"]
+    resources = ["*"]
+    effect = "Allow"
+  }
+
+  statement{
+    sid = ""
+    actions = ["ecr-public:*", "sts:GetServiceBearerToken"]
+    resources = ["*"]
+    effect = "Allow"
+  }
+
+  statement{
+    sid = ""
+    actions = ["ecr:*", "cloudtrail:LookupEvents"]
+    resources = ["*"]
+    effect = "Allow"
+  }
+
+  statement{
+    sid = ""
+    actions = ["iam:CreateServiceLinkedRole"]
+    resources = ["*"]
+    effect = "Allow"
+    condition {
+        test     = "StringEquals"
+        variable = "iam:AWSServiceName"
+        values = ["replication.ecr.amazonaws.com"]
     }
+  }
 }
 
 resource "aws_iam_policy" "build-policy" {

@@ -29,7 +29,7 @@ resource "aws_codebuild_project" "build_docker" {
 
     environment_variable {
       name  = "AWS_DEFAULT_REGION"
-      value = "us-west-1b"
+      value = module.aws_ecr_s3_postgres_pj.default_region
     }
 
     environment_variable {
