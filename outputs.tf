@@ -1,3 +1,8 @@
+output "aws_account_id" {
+  value       = data.aws_caller_identity.current.account_id
+  description = "Full ARN of the repository."
+}
+
 output "ecr_repository_arn" {
   value       = aws_ecr_repository.this.arn
   description = "Full ARN of the repository."

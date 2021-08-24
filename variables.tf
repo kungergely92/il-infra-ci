@@ -3,9 +3,9 @@ variable "ecr_name" {
   description = "Name of the ECR repository."
 }
 
-variable "tag_prefix_list" {
-  type        = list(string)
-  description = "List of image tag prefixes on which to take action with lifecycle policy."
+variable "s3_bucket_name" {
+  type        = string
+  description = "Name of the S3 bucket."
 }
 
 variable "push_and_pull_accounts" {
@@ -44,7 +44,7 @@ variable "initial_db" {
   description = "Initial database."
 }
 
-variable "identifier" {
+variable "rds_identifier" {
   type        = string
   description = "RDS identifier."
 }

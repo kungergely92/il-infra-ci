@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "this" {
-  bucket = "www.my-devops-assignment-terraform.com"
+  bucket = var.s3_bucket_name
   acl    = "public-read"
 
   website {

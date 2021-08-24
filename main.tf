@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "my_ecr_repo" {
+resource "aws_ecr_repository" "this" {
   name = var.ecr_name
 
   image_tag_mutability = var.image_tag_mutability
@@ -8,8 +8,8 @@ resource "aws_ecr_repository" "my_ecr_repo" {
   }
 }
 
-resource "aws_ecr_repository_policy" "my_ecr_repo_policy" {
-  repository = aws_ecr_repository.my_ecr_repo.name
+resource "aws_ecr_repository_policy" "this" {
+  repository = aws_ecr_repository.this.name
   policy     = data.aws_iam_policy_document.push_and_pull.json
 }
 
