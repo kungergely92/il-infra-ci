@@ -28,12 +28,12 @@ resource "aws_s3_bucket_policy" "this" {
     Id      = "PolicyForPublicWebsiteContent"
     Statement = [
       {
-        Sid       = "PublicReadGetObject"
-        Effect    = "Allow"
+        Sid    = "PublicReadGetObject"
+        Effect = "Allow"
         Principal = {
-                "AWS": "*"
-            }
-        Action    = "s3:GetObject"
+          "AWS" : "*"
+        }
+        Action   = "s3:GetObject"
         Resource = ["${aws_s3_bucket.this.arn}/*"]
       },
     ]

@@ -18,42 +18,42 @@ EOF
 }
 
 data "aws_iam_policy_document" "pipeline-policies" {
-  statement{
-    sid = ""
-    actions = ["codestar-connections:UseConnection"]
+  statement {
+    sid       = ""
+    actions   = ["codestar-connections:UseConnection"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
-  statement{
-    sid = ""
-    actions = ["cloudwatch:*", "s3:*", "codebuild:*"]
+  statement {
+    sid       = ""
+    actions   = ["cloudwatch:*", "s3:*", "codebuild:*"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
-  statement{
-    sid = ""
-    actions = ["ecr-public:*", "sts:GetServiceBearerToken"]
+  statement {
+    sid       = ""
+    actions   = ["ecr-public:*", "sts:GetServiceBearerToken"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
-  statement{
-    sid = ""
-    actions = ["ecr:*", "cloudtrail:LookupEvents"]
+  statement {
+    sid       = ""
+    actions   = ["ecr:*", "cloudtrail:LookupEvents"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
 }
 
 resource "aws_iam_policy" "pipeline-policy" {
-    name = "pipeline-policy"
-    path = "/"
-    description = "Pipeline policy"
-    policy = data.aws_iam_policy_document.pipeline-policies.json
+  name        = "pipeline-policy"
+  path        = "/"
+  description = "Pipeline policy"
+  policy      = data.aws_iam_policy_document.pipeline-policies.json
 }
 
 resource "aws_iam_role_policy_attachment" "pipeline-attachment" {
-    policy_arn = aws_iam_policy.pipeline-policy.arn
-    role = aws_iam_role.pipeline_role.id
+  policy_arn = aws_iam_policy.pipeline-policy.arn
+  role       = aws_iam_role.pipeline_role.id
 }
 
 resource "aws_iam_role" "build_role" {
@@ -76,53 +76,53 @@ EOF
 }
 
 data "aws_iam_policy_document" "build-policies" {
-  statement{
-    sid = ""
-    actions = ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*","iam:*"]
+  statement {
+    sid       = ""
+    actions   = ["logs:*", "s3:*", "codebuild:*", "secretsmanager:*", "iam:*"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
 
-  statement{
-    sid = ""
-    actions = ["ecr-public:*", "sts:GetServiceBearerToken"]
+  statement {
+    sid       = ""
+    actions   = ["ecr-public:*", "sts:GetServiceBearerToken"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
 
-  statement{
-    sid = ""
-    actions = ["ecr:*", "cloudtrail:LookupEvents"]
+  statement {
+    sid       = ""
+    actions   = ["ecr:*", "cloudtrail:LookupEvents"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
   }
 
-  statement{
-    sid = ""
-    actions = ["iam:CreateServiceLinkedRole"]
+  statement {
+    sid       = ""
+    actions   = ["iam:CreateServiceLinkedRole"]
     resources = ["*"]
-    effect = "Allow"
+    effect    = "Allow"
     condition {
-        test     = "StringEquals"
-        variable = "iam:AWSServiceName"
-        values = ["replication.ecr.amazonaws.com"]
+      test     = "StringEquals"
+      variable = "iam:AWSServiceName"
+      values   = ["replication.ecr.amazonaws.com"]
     }
   }
 }
 
 resource "aws_iam_policy" "build-policy" {
-    name = "build-policy"
-    path = "/"
-    description = "Codebuild policy"
-    policy = data.aws_iam_policy_document.build-policies.json
+  name        = "build-policy"
+  path        = "/"
+  description = "Codebuild policy"
+  policy      = data.aws_iam_policy_document.build-policies.json
 }
 
 resource "aws_iam_role_policy_attachment" "codebuild-attachment1" {
-    policy_arn  = aws_iam_policy.build-policy.arn
-    role        = aws_iam_role.build_role.id
+  policy_arn = aws_iam_policy.build-policy.arn
+  role       = aws_iam_role.build_role.id
 }
 
 resource "aws_iam_role_policy_attachment" "codebuild-attachment2" {
-    policy_arn  = "arn:aws:iam::aws:policy/PowerUserAccess"
-    role        = aws_iam_role.build_role.id
+  policy_arn = "arn:aws:iam::aws:policy/PowerUserAccess"
+  role       = aws_iam_role.build_role.id
 }

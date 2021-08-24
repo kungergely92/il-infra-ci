@@ -12,12 +12,12 @@ resource "aws_codepipeline" "my-provisioned-deployment-pipeline" {
     name = "Source"
 
     action {
-      name     = "Source"
-      category = "Source"
+      name             = "Source"
+      category         = "Source"
       output_artifacts = ["SourceArtifact"]
-      owner     = "AWS"
-      provider  = "CodeStarSourceConnection"
-      version   = "1"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
       configuration = {
         BranchName       = var.repository_branch
         FullRepositoryId = "${var.repository_owner}/${var.repository_name}"

@@ -39,6 +39,6 @@ output "s3_bucket_bucket_domain_name" {
 }
 
 output "default_region" {
-    description = "Default AWS provider region"
-    value       = data.aws_region.current.name
+  description = "Default AWS provider region"
+  value       = data.aws_region.current.name
 }

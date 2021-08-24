@@ -1,10 +1,10 @@
 data "template_file" "buildspec" {
-  template = "${file("../../buildspec.yml")}"
+  template = file("../../buildspec.yml")
 }
 
 resource "aws_codebuild_project" "build_docker" {
-  name           = "build_docker"
-  service_role   = aws_iam_role.build_role.arn
+  name         = "build_docker"
+  service_role = aws_iam_role.build_role.arn
 
   artifacts {
     type = "CODEPIPELINE"
@@ -16,7 +16,7 @@ resource "aws_codebuild_project" "build_docker" {
     image_pull_credentials_type = "CODEBUILD"
     privileged_mode             = true
     type                        = "LINUX_CONTAINER"
-  
+
     environment_variable {
       name  = "IMAGE_REPO_NAME"
       value = module.aws_ecr_s3_postgres_pj.ecr_repository_name
@@ -51,7 +51,7 @@ resource "aws_codebuild_project" "build_docker" {
   }
 
   source {
-    buildspec           = data.template_file.buildspec.rendered
-    type                = "CODEPIPELINE"
+    buildspec = data.template_file.buildspec.rendered
+    type      = "CODEPIPELINE"
   }
 }
