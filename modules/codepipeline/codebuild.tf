@@ -46,7 +46,7 @@ resource "aws_codebuild_project" "build_docker" {
 
     s3_logs {
       status   = "ENABLED"
-      location = "${aws_s3_bucket.codepipeline_bucket.id}/build-log"
+      location = "${module.aws_ecr_s3_postgres_pj.s3_bucket_id}/build-log"
     }
   }
 

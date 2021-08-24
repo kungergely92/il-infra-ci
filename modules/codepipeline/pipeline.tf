@@ -66,8 +66,3 @@ resource "aws_codepipeline" "my-provisioned-deployment-pipeline" {
     }
   }
 }
-
-resource "aws_s3_bucket" "codepipeline_bucket" {
-  bucket = "test-bucket-for-artifacts"
-  acl    = "private"
-}
